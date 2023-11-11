@@ -113,7 +113,7 @@ class Program
                 if (int.TryParse(Console.ReadLine(), out int postNumber) && postNumber >= 1 && postNumber <= guestbook.Count)
                 {
                     guestbook.RemoveAt(postNumber - 1);
-                    Console.WriteLine("Inlägget har raderats.\n");
+                    Console.WriteLine("\nInlägget har raderats.\n");
                 }
                 else
                 {
