@@ -1,0 +1,14 @@
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\bin\Debug\net7.0\DT071G_M3.exe
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\bin\Debug\net7.0\DT071G_M3.deps.json
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\bin\Debug\net7.0\DT071G_M3.runtimeconfig.json
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\bin\Debug\net7.0\DT071G_M3.dll
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\bin\Debug\net7.0\DT071G_M3.pdb
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\obj\Debug\net7.0\DT071G_M3.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\obj\Debug\net7.0\DT071G_M3.AssemblyInfoInputs.cache
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\obj\Debug\net7.0\DT071G_M3.AssemblyInfo.cs
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\obj\Debug\net7.0\DT071G_M3.csproj.CoreCompileInputs.cache
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\obj\Debug\net7.0\DT071G_M3.dll
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\obj\Debug\net7.0\refint\DT071G_M3.dll
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\obj\Debug\net7.0\DT071G_M3.pdb
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\obj\Debug\net7.0\DT071G_M3.genruntimeconfig.cache
+C:\Users\bjawa\Documents\Webbutveckling\MIUN_Webbutveckling\Kurser\DT071G_C#.NET\DT071G_M3\obj\Debug\net7.0\ref\DT071G_M3.dll
