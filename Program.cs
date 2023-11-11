@@ -7,11 +7,11 @@ class Program
 
     static void Main()
     {
-        bool programGoes = true;
+        bool programRuns = true;
 
-        while (programGoes)
+        while (programRuns)
         {
-            Console.Clear();
+            Console.Clear(); //Tömmer konsolen så den inte bara fylls på eftersom, så det då blir lättare att läsa konsolen eftersom
             Console.WriteLine("Välkommen till gästboken!");
             Console.WriteLine("1. Läs alla inlägg");
             Console.WriteLine("2. Skriv ett nytt inlägg");
@@ -33,7 +33,7 @@ class Program
                         DeleteGuestbookPost();
                         break;
                     case 4:
-                        programGoes = false;
+                        programRuns = false;
                         break;
                     default:
                         Console.WriteLine("Ogiltigt val. Försök igen.");
@@ -47,13 +47,15 @@ class Program
         }
     }
 
-    static void ReadGuestbook()
+    //Funktioner för gästboken
+
+    static void ReadGuestbook() //Funktion för att läsa alla inlägg
     {
         Console.Clear();
         Console.WriteLine("Inlägg i gästboken:");
         if (guestbook.Count == 0)
         {
-            Console.WriteLine("Gästboken är tom.");
+            Console.WriteLine("\nGästboken är tom.");
         }
         else
         {
@@ -62,37 +64,63 @@ class Program
                 Console.WriteLine($"{i + 1}. {guestbook[i]}");
             }
         }
-        Console.WriteLine("Tryck på valfri tangent för att återgå.");
+        Console.WriteLine("\nTryck på valfri tangent för att återgå.");
         Console.ReadKey();
     }
 
-    static void WriteToGuestbook()
+    static void WriteToGuestbook() //Funktion för att lägga till nytt inlägg i gästboken
     {
         Console.Clear();
-        Console.WriteLine("Skriv ett nytt inlägg:");
-        string post = Console.ReadLine();
-        guestbook.Add(post);
-        Console.WriteLine("Inlägget har lagts till i gästboken.");
-        Console.WriteLine("Tryck på valfri tangent för att återgå.");
-        Console.ReadKey();
+        do
+        {
+            Console.WriteLine("Skriv ett nytt inlägg:");
+            string post = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(post)) // Kontrollera om posten är tom eller bara innehåller vita mellanslag
+            {
+                guestbook.Add(post);
+                Console.WriteLine("Inlägget har lagts till i gästboken.");
+                Console.WriteLine("\nTryck på valfri tangent för att börja skriva ett till inlägg eller tryck på tangenten backsteg för att återgå till startmenyn.\n");
+            }
+            else
+            {
+                Console.WriteLine("Inlägget får inte vara tomt. Försök igen.");
+                Console.WriteLine("\nTryck på valfri tangent för att börja skriva ett till inlägg eller tryck på tangenten backsteg för att återgå till startmenyn.\n");
+            }
+        } while (Console.ReadKey(true).Key != ConsoleKey.Backspace);
     }
-
-    static void DeleteGuestbookPost()
+    static void DeleteGuestbookPost() //Funktion för att ta bort specifika inlägg
     {
-        Console.Clear();
-        Console.WriteLine("Radera ett inlägg från gästboken:");
-        ReadGuestbook();
-        Console.Write("Ange numret på inlägget du vill radera: ");
-        if (int.TryParse(Console.ReadLine(), out int postNumber) && postNumber >= 1 && postNumber <= guestbook.Count)
+        if (guestbook.Count == 0)
         {
-            guestbook.RemoveAt(postNumber - 1);
-            Console.WriteLine("Inlägget har raderats.");
+            Console.Clear();
+            Console.WriteLine("Gästboken är tom.");
+            Console.WriteLine("Tryck på valfri tangent för att återgå.");
+            Console.ReadKey();
         }
-        else
-        {
-            Console.WriteLine("Ogiltigt val. Ange ett giltigt nummer.");
-        }
-        Console.WriteLine("Tryck på valfri tangent för att återgå.");
-        Console.ReadKey();
+        else do
+            {
+                Console.Clear();
+                Console.WriteLine("Radera ett inlägg från gästboken:");
+                //Återanvänder funktionaliteten från ReadGuestBook-funktionen, att bara kalla på funktionen istället skulle skrivit ut text som förvirrat
+
+                {
+                    for (int i = 0; i < guestbook.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {guestbook[i]}");
+                    }
+                    Console.Write("Ange numret på inlägget du vill radera:\n");
+                }
+                if (int.TryParse(Console.ReadLine(), out int postNumber) && postNumber >= 1 && postNumber <= guestbook.Count)
+                {
+                    guestbook.RemoveAt(postNumber - 1);
+                    Console.WriteLine("Inlägget har raderats.\n");
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt val. Ange ett giltigt nummer.\n");
+                }
+                Console.WriteLine("Tryck på valfri tangent för att ange nummer på nytt eller tryck på tangenten backsteg för att återgå till startmenyn.\n");
+            }
+            while (Console.ReadKey(true).Key != ConsoleKey.Backspace);
     }
 }
