@@ -1,28 +1,29 @@
-﻿// See https://aka.ms/new-console-template for more information
-
+﻿using System.Text.Json;
 
 class Program
 {
-    static List<string> guestbook = new List<string>(); //Skapar en variabel gästboken som är en lista som innehåller textsträngar
+    static List<GuestbookPost> guestbook = new List<GuestbookPost>();
+    static string jsonFilePath = "guestBook.json"; // Filnamnet för JSON-filen
 
     static void Main()
     {
-        bool programRuns = true; //Skapar variabel för att kunna skapa ett alternativ som stänger ned applikationen
+        LoadGuestbook(); // Läs in tidigare inlägg från JSON-filen
+
+        bool programRuns = true;
 
         while (programRuns)
         {
-            Console.Clear(); //Tömmer konsolen så den inte bara fylls på eftersom, så det då blir lättare att läsa konsolen eftersom
+            Console.Clear();
             Console.WriteLine("Välkommen till Björns gästbok!");
             Console.WriteLine("1. Läs alla inlägg");
             Console.WriteLine("2. Skriv ett nytt inlägg");
             Console.WriteLine("3. Radera ett inlägg");
             Console.WriteLine("4. Avsluta");
 
-            int choice; //Skapar en variabel det val av nästkommande alternativ användaren får
+            int choice;
+            int.TryParse(Console.ReadLine(), out choice);
 
-            int.TryParse(Console.ReadLine(), out choice); //Läser in det användaren anger och konverterar den strängen (som kan vara en siffra) till en integer
-
-            switch (choice) //Alternativ för användaren som kallar på de olika funktionerna
+            switch (choice)
             {
                 case 1:
                     ReadGuestbook();
@@ -34,7 +35,8 @@ class Program
                     DeleteGuestbookPost();
                     break;
                 case 4:
-                    programRuns = false; //Alternativ 4 stänger ned applikationen
+                    SaveGuestbook(); // Spara inläggen till JSON-filen innan du avslutar
+                    programRuns = false;
                     break;
                 default:
                     break;
@@ -42,40 +44,63 @@ class Program
         }
     }
 
-    //Funktioner för gästboken
-
-    static void ReadGuestbook() //Funktion för att läsa alla inlägg
+    static void LoadGuestbook()
     {
-        Console.Clear(); //Tömmer konsolen så den inte bara fylls på eftersom, så det då blir lättare att läsa konsolen eftersom
+        if (File.Exists(jsonFilePath))
+        {
+            string json = File.ReadAllText(jsonFilePath);
+
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                guestbook = JsonSerializer.Deserialize<List<GuestbookPost>>(json);
+            }
+            else
+            {
+                Console.WriteLine("JSON-filen är tom eller ogiltig.");
+            }
+        }
+    }
+
+
+    static void SaveGuestbook()
+    {
+        string json = JsonSerializer.Serialize(guestbook);
+        File.WriteAllText(jsonFilePath, json);
+    }
+
+    // Funktioner för gästboken
+
+    static void ReadGuestbook()
+    {
+        Console.Clear();
         Console.WriteLine("Inlägg i gästboken:");
-        if (guestbook.Count == 0) //Om det inte finns några inlägg skrivs bara denna text ut
+        if (guestbook.Count == 0)
         {
             Console.WriteLine("\nGästboken är tom.");
         }
         else
         {
-            for (int i = 0; i < guestbook.Count; i++) //Loopar igenom alla inlägg
+            for (int i = 0; i < guestbook.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {guestbook[i]}"); //Skriver ut alla inlägg med dess index
+                Console.WriteLine($"{i + 1}. {guestbook[i].Post} - Av: {guestbook[i].Author}");
             }
         }
         Console.WriteLine("\nTryck på valfri tangent för att återgå.");
         Console.ReadKey();
     }
 
-    static void WriteToGuestbook() //Funktion för att lägga till nytt inlägg i gästboken
+    static void WriteToGuestbook()
     {
-        Console.Clear(); //Tömmer konsolen så den inte bara fylls på eftersom, så det då blir lättare att läsa konsolen eftersom
+        Console.Clear();
         do
         {
             Console.WriteLine("Skriv ett nytt inlägg:");
             string post = Console.ReadLine();
             Console.WriteLine("Skriv ditt namn:");
             string postAuthor = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(post) && !string.IsNullOrWhiteSpace(postAuthor))  // Kontrollera så inte em tom strängs skickas in
+            if (!string.IsNullOrWhiteSpace(post) && !string.IsNullOrWhiteSpace(postAuthor))
             {
-                guestbook.Add(post); //Add-funktionen lägger in det användaren skrev som nytt inlägg i listan med alla inlägg
-                guestbook.Add(postAuthor); //Add-funktionen lägger in det användaren skrev som nytt inlägg i listan med alla inlägg
+                guestbook.Add(new GuestbookPost { Post = post, Author = postAuthor });
                 Console.WriteLine("Inlägget har lagts till i gästboken.");
                 Console.WriteLine("\nTryck på valfri tangent för att börja skriva ett till inlägg eller tryck på tangenten backsteg för att återgå till startmenyn.\n");
             }
@@ -86,41 +111,47 @@ class Program
             }
         } while (Console.ReadKey(true).Key != ConsoleKey.Backspace);
     }
-    static void DeleteGuestbookPost() //Funktion för att ta bort specifika inlägg
-    {
 
+    static void DeleteGuestbookPost()
+    {
         if (guestbook.Count == 0)
         {
-            Console.Clear(); //Tömmer konsolen så den inte bara fylls på eftersom, så det då blir lättare att läsa konsolen eftersom
+            Console.Clear();
             Console.WriteLine("Gästboken är tom.\n");
             Console.WriteLine("Tryck på valfri tangent för att återgå.");
             Console.ReadKey();
         }
-        else do
+        else
+        {
+            do
             {
-                Console.Clear(); //Tömmer konsolen så den inte bara fylls på eftersom, så det då blir lättare att läsa konsolen eftersom
+                Console.Clear();
                 Console.WriteLine("Radera ett inlägg från gästboken:");
 
+                for (int i = 0; i < guestbook.Count; i++)
                 {
-                    //Återanvänder funktionaliteten från ReadGuestBook-funktionen, att bara kalla på funktionen istället skulle skrivit ut text som förvirrat
-                    for (int i = 0; i < guestbook.Count; i++)
-                    {
-                        Console.WriteLine($"{i + 1}. {guestbook[i]}");
-                    }
-                    Console.Write("Ange numret på inlägget du vill radera:\n");
+                    Console.WriteLine($"{i + 1}. {guestbook[i].Post} - Av: {guestbook[i].Author}");
                 }
-                //If-sats som kollar om det användaren skriver in och kollar att det är större än 1 och mindre än högsta siffran av antalet inlägg i boken
+
+                Console.Write("Ange numret på inlägget du vill radera:\n");
+
                 if (int.TryParse(Console.ReadLine(), out int postNumber) && postNumber >= 1 && postNumber <= guestbook.Count)
                 {
-                    guestbook.RemoveAt(postNumber - 1); //Använder RemoveAt funktionen och eftersom indexeringen i bakgrunden börjar på 0 blir det siffran användaren angav minus 1 som är indexet vi ska ta bort
+                    guestbook.RemoveAt(postNumber - 1);
                     Console.WriteLine("\nInlägget har raderats.\n");
                 }
                 else
                 {
                     Console.WriteLine("Ogiltigt val. Ange ett giltigt nummer.\n");
                 }
-                Console.WriteLine("Tryck på valfri tangent för att ange nummer på nytt eller tryck på tangenten backsteg för att återgå till startmenyn.\n");
-            }
-            while (Console.ReadKey(true).Key != ConsoleKey.Backspace);
+                Console.WriteLine("Tryck på valfri tangent för att ange numret på nytt eller tryck på tangenten backsteg för att återgå till startmenyn.\n");
+            } while (Console.ReadKey(true).Key != ConsoleKey.Backspace);
+        }
     }
+}
+
+class GuestbookPost
+{
+    public string Post { get; set; }
+    public string Author { get; set; }
 }
