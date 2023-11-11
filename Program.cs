@@ -70,15 +70,18 @@ class Program
         {
             Console.WriteLine("Skriv ett nytt inlägg:");
             string post = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(post)) // Kontrollera om posten är tom eller bara innehåller vita mellanslag
+            Console.WriteLine("Skriv ditt namn:");
+            string postAuthor = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(post) && !string.IsNullOrWhiteSpace(postAuthor))  // Kontrollera så inte em tom strängs skickas in
             {
                 guestbook.Add(post); //Add-funktionen lägger in det användaren skrev som nytt inlägg i listan med alla inlägg
+                guestbook.Add(postAuthor); //Add-funktionen lägger in det användaren skrev som nytt inlägg i listan med alla inlägg
                 Console.WriteLine("Inlägget har lagts till i gästboken.");
                 Console.WriteLine("\nTryck på valfri tangent för att börja skriva ett till inlägg eller tryck på tangenten backsteg för att återgå till startmenyn.\n");
             }
             else
             {
-                Console.WriteLine("Inlägget får inte vara tomt. Försök igen.");
+                Console.WriteLine("Varken inlägget eller fältet för ditt namn får vara tomt. Försök igen.");
                 Console.WriteLine("\nTryck på valfri tangent för att börja skriva ett till inlägg eller tryck på tangenten backsteg för att återgå till startmenyn.\n");
             }
         } while (Console.ReadKey(true).Key != ConsoleKey.Backspace);
